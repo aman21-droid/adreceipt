@@ -122,6 +122,20 @@ export const config = {
   graphApiKey: process.env.GRAPH_API_KEY ?? "",
   graphMaxLag: Number(process.env.GRAPH_MAX_BLOCK_LAG ?? 20),
   settlementAddress: process.env.PLACEMENT_SETTLEMENT_ADDRESS ?? "",
+
+  /**
+   * PostgreSQL for the V2 campaign services. Intentionally has no default:
+   * campaigns, reservations and measurement have no fallback store, and a
+   * default here would invite one.
+   */
+  databaseUrl: process.env.DATABASE_URL ?? "",
+
+  /**
+   * Minimum share of a campaign's targeted topics that must appear in the
+   * context before its bid is even compared. Raising it makes advertising rarer
+   * and more relevant; it can never be bought past.
+   */
+  relevanceFloor: Number(process.env.RELEVANCE_FLOOR ?? 0.5),
   privyAppId: process.env.PRIVY_APP_ID ?? "",
   privyAppSecret: process.env.PRIVY_APP_SECRET ?? "",
   privyWalletId: process.env.PRIVY_WALLET_ID ?? "",

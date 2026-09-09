@@ -2,6 +2,7 @@ import express from "express";
 import { config, settlementDeployment } from "../config";
 import { errorHandler } from "./errors";
 import { routes } from "./routes";
+import { mountV2 } from "../v2/mount";
 
 export function createServer() {
   const app = express();
@@ -18,12 +19,13 @@ export function createServer() {
   app.use((_req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
     next();
   });
   app.options("*", (_req, res) => res.sendStatus(204));
 
   app.use(routes);
+  app.use("/v2", mountV2());
   app.use((_req, res) => res.status(404).json({ error: "not-found" }));
   app.use(errorHandler);
 
